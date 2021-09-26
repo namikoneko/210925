@@ -28,16 +28,24 @@ class ParentShowRows
     return $rows;
   }
 
-//作成予定
-//  public function makeHtml()
-//  {
-//    $formTags = $this->exe();
-//    $formHtml = "";
-//    $formHtml .= $formTags["top"];
-//    $formHtml .= $formTags["title"];
-//    $formHtml .= $formTags["text"];
-//    $formHtml .= $formTags["submit"];
-//    $formHtml .= $formTags["end"];
-//    return $formHtml;
-//  }
+  public function makeHtml($rows)
+  {
+      $str = "";
+    foreach($rows as $row)
+    {
+    $str .= <<<EOD
+    <div class="parent-rows u-full-width">
+    <div class="parent-rows-title">
+      NO:{$row["id"]}
+      {$row["title"]}
+    </div>
+    <div class="parent-rows-upd-del">
+      {$row["upd"]}
+      {$row["del"]}
+    </div>
+    </div>
+EOD;
+    }
+      echo $str;
+  }
 }

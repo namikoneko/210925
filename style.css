@@ -1,0 +1,135 @@
+@charset "utf-8";
+body
+{
+  background-color: #eee;
+/*
+  background-color: pink;
+*/
+}
+
+.child-rows-text
+{
+/*
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
+  background-color: pink;
+*/
+  max-height: 100%;
+  overflow: scroll;
+}
+
+.grand-rows,
+.parent-rows, 
+.child-rows-text,
+.top-row-title,
+.childcard-text
+{
+  background-color: #fff;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+}
+
+input[type="submit"]
+{
+  background-color: #fff;
+}
+
+.top-row-title
+{
+  margin-bottom: 1rem;
+}
+
+.grand-rows,
+.parent-rows,
+.child-rows-date-etc,
+.childcard-etc
+{
+  display: flex;
+  justify-content: space-between;
+}
+
+.grand-rows,
+.parent-rows
+{
+  margin-bottom: 1rem;
+}
+
+.grand-rows-title,
+.parent-rows-title,
+.child-rows-date-upd-up-card,
+.childcard-date-upd-up
+{
+  display: flex;
+  gap: 2rem;
+}
+
+.child-rows-up,
+.childcard-up
+{
+  width: 4rem;
+  border: 1px solid #0bd;
+}
+
+.child-rows-up a,
+.child-rows-date-etc a,
+.childcard-date-upd-up a
+{
+  display: block;
+  text-align: center;
+}
+/*
+.childcard-date-upd-up a
+*/
+
+.child-rows-up a:hover,
+.child-rows-date-etc a:hover,
+.pageup-link a:hover,
+.childcard-etc a:hover
+{
+  background-color: #0bd;
+}
+
+.grand-rows-upd-del,
+.parent-rows-upd-del
+{
+  display: flex;
+  justify-content: flex-end;
+  gap: 3rem;
+}
+
+.insform-textarea,
+.updform-textarea
+{
+  height: 20%;
+}
+
+.top-row-title h3
+{
+  margin: 0;
+}
+
+.pageup-link
+{
+  font-size: 2rem;
+}
+
+.grand-title
+{
+  margin-top: 2rem;
+}
+
+.upd-form
+{
+  margin-top: 3rem;
+}
+
+.updform-textarea
+{
+  height: 60%;
+}
+/*
+  background-color: pink;
+  text-align: right;
+*/

@@ -10,7 +10,7 @@ class InsFormPartial
 EOD;
 
   protected $textareaStr =  <<<EOD
-    <textarea name="nameStr"></textarea>
+    <textarea name="nameStr" class="u-full-width insform-textarea"></textarea>
 EOD;
 
   protected $checkboxStr =  <<<EOD

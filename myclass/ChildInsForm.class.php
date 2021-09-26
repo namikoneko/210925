@@ -26,14 +26,23 @@ class ChildInsForm
 
   public function makeHtml()
   {
-    $formTags = $this->exe();
-    $formHtml = "";
-    $formHtml .= $formTags["top"];
-    $formHtml .= $formTags["parentId"];
-    $formHtml .= $formTags["title"];
-    $formHtml .= $formTags["text"];
-    $formHtml .= $formTags["submit"];
-    $formHtml .= $formTags["end"];
-    return $formHtml;
+    $row = $this->exe();
+    $str = "";
+    $str .= <<< EOD
+    {$row["top"]}
+    {$row["parentId"]}
+      {$row["text"]}
+      {$row["submit"]}
+    {$row["end"]}
+    EOD;
+    echo $str;
   }
+//    $str .= $formTags["top"];
+//    $str .= $formTags["parentId"];
+//    $str .= "<div>";
+//    $str .= $formTags["title"];
+//    $str .= $formTags["text"];
+//    $str .= $formTags["submit"];
+//    $str .= "</div>";
+//    $str .= $formTags["end"];
 }

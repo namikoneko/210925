@@ -5,20 +5,32 @@ $grandTable = "grand";
 
 Flight::route("/grand", function(){
 
-  //dbからデータを取得
+  $header = new Header();
+  $header->output();
+
+//dbからデータを取得
   global $grandTable;
   $table = $grandTable;
-  $rows = GetRows::GetAll($table);
-
-  //rowsを表示
-  $grandshowrows = new GrandShowRows();
-  $rows = $grandshowrows->rowsExe($rows);
-  print_r($rows);
-
+  //$rows = GetRows::GetAllArr($table);
+  $gr = new GetRows();
+  $rows = $gr->GetAll($table);
+//並び替え
+  $column = "title";
+  $rows = $gr->orderByArr($rows, $column);
+  //$rows = $gr->orderByDescArr($rows, $column);
+//タイトル表示
+  MakeTopRowHtml::grandTitle();
   //insformの作成
   $grandform = new GrandInsForm();
-  $formHtml = $grandform->makeHtml();
-  echo $formHtml;
+  $grandform->makeHtml();
+
+  //rowsを表示
+  $grandshow = new GrandShowRows();
+  $rows = $grandshow->rowsExe($rows);
+  $grandshow->makeHtml($rows);
+  //print_r($rows);
+
+  Footer::output();
 });
 
 Flight::route("/grandinsexe", function(){
@@ -34,13 +46,17 @@ Flight::route("/grandinsexe", function(){
 });
 
 Flight::route("/grandupd/@id", function($id){
+  $header = new Header();
+  $header->output();
+
   global $grandTable;
   $table = $grandTable;
   $row = GetRows::GetOneArr($table, $id);
 
   $grandform = new GrandUpdForm($id, $row);
-  $formHtml = $grandform->makeHtml();
-  echo $formHtml;
+  $grandform->makeHtml();
+
+  Footer::output();
 });
 
 Flight::route("/grandupdexe", function(){

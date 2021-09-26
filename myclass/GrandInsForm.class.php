@@ -1,6 +1,6 @@
 <?php
 
-class GrandInsForm
+class GrandInsForm extends ParentInsForm
 {
   public $forms;
   public $actionUrl;
@@ -22,15 +22,24 @@ class GrandInsForm
     return $formTags;
   }
 
-  public function makeHtml()
-  {
-    $formTags = $this->exe();
-    $formHtml = "";
-    $formHtml .= $formTags["top"];
-    $formHtml .= $formTags["title"];
-    $formHtml .= $formTags["text"];
-    $formHtml .= $formTags["submit"];
-    $formHtml .= $formTags["end"];
-    return $formHtml;
-  }
+//  public function makeHtml()
+//  {
+//    $row = $this->exe();
+//    $str = "";
+//    $str .= <<< EOD
+//    {$row["top"]}
+//      {$row["title"]}
+//      {$row["submit"]}
+//    {$row["end"]}
+//    EOD;
+//    echo $str;
+//  }
 }
+//    $formTags = $this->exe();
+//    $formHtml = "";
+//    $formHtml .= $formTags["top"];
+//    $formHtml .= $formTags["title"];
+//    $formHtml .= $formTags["text"];
+//    $formHtml .= $formTags["submit"];
+//    $formHtml .= $formTags["end"];
+//    echo $formHtml;

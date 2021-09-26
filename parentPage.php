@@ -2,29 +2,42 @@
 use \ShowRows\ShowRows;
 
 $table = "parent";
-//require_once '../libs/flight/Flight.php';
 
-//Flight::route($routeUrl, function(){
 Flight::route("/parent/@id", function($id){
-//grandへのリンク
-  echo LinkHtml::makeLink("../grand","grand");
-//grandの1行
+  $header = new Header();
+  $header->output();
+
+//grandの1行のデータを先に取得
   global $grandTable;
   $row = GetRows::getOneArr($grandTable, $id);
-  print_r($row);
+//grandへのリンク
+  $str = LinkHtml::makeLink("../grand","grand");
+  echo "<div class='pageup-link'>" . $str . "</div>";
+//grandの1行
+  MakeTopRowHtml::makeHtml($row);
+  //print_r($row);
+//insformの作成
+  $parentinsform = new ParentInsForm($row["id"]);
+  $parentinsform->makeHtml();
 
 //parentの複数行
   global $table;
-  $rows = GetRows::getRowsParentId($table,$row["id"]);
+//データを取得
+  //$rows = GetRows::getRowsParentIdArr($table,$row["id"]);
+  $gr = new GetRows();
+  $rows = $gr->getRowsParentId($table,$row["id"]);
+//並び替え
+  $column = "title";
+  $rows = $gr->orderByArr($rows, $column);
+  //$rows = $gr->orderByDescArr($rows, $column);
   //print_r($rows);
-  $parentshowrows = new ParentShowRows();
-  $rows = $parentshowrows->rowsExe($rows);
-  print_r($rows);
+//表示する
+  $parentshow = new ParentShowRows();
+  $rows = $parentshow->rowsExe($rows);
+  $parentshow->makeHtml($rows);
+  //print_r($rows);
 
-  //insformの作成
-  $parentinsform = new ParentInsForm($row["id"]);
-  $formHtml = $parentinsform->makeHtml();
-  echo $formHtml;
+  Footer::output();
 });
 
 Flight::route("/parentinsexe", function(){
@@ -42,17 +55,20 @@ Flight::route("/parentinsexe", function(){
 });
 
 Flight::route("/parentupd/@id", function($id){
+  $header = new Header();
+  $header->output();
   global $table;
   $row = GetRows::getOneArr($table, $id);
 
   $parentupdform = new ParentUpdForm($id, $row);
-  $formHtml = $parentupdform->makeHtml();
-  echo $formHtml;
+  $parentupdform->makeHtml();
+  Footer::output();
 });
 
 Flight::route("/parentupdexe", function(){
   global $table;
   $forms = [
+    ["type" => "typeText", "name" => "parentId", "column" => "parentId", "showKey" => "parentId"],
     ["type" => "typeText", "name" => "title", "column" => "title", "showKey" => "title"],
     ["type" => "textarea", "name" => "text", "column" => "text", "showKey" => "text"],
   ];

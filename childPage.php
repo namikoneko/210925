@@ -4,34 +4,51 @@ use \ShowRows\ShowRows;
 $childTable = "child";
 
 Flight::route("/child/@id", function($id){
+  $header = new Header();
+  $header->output();
 
-//parentの1行
+//parentの1行のデータを先に取得
   global $table;
   $row = GetRows::getOneArr($table, $id);
-  //print_r($row);
 
 //parentへのリンク
   $linkhtml = new LinkHtml();
   $str = $linkhtml->makeLinkId("../parent","parent",$row["parentId"]);
-  echo $str;
+  echo "<div class='pageup-link'>" . $str . "</div>";
+
+//parentの1行
+  MakeTopRowHtml::makeHtml($row);
+  //print_r($row);
+
+//insformの作成
+  $childinsform = new ChildInsForm($row["id"]);
+  $childinsform->makeHtml();
 
 //  $childshowrows = new ChildShowRows();
 //  $row = $childshowrows->exe($row);
-  print_r($row);
+  //print_r($row);
 
 //childの複数行
   global $childTable;
   $table = $childTable;
-  $rows = GetRows::getRowsParentId($table,$row["id"]);
-  //print_r($rows);
-  $childshowrows = new ChildShowRows();
-  $rows = $childshowrows->rowsExe($rows);
-  print_r($rows);
+//  $rows = GetRows::getRowsParentIdArr($table,$row["id"]);
 
-  //insformの作成
-  $childinsform = new ChildInsForm($row["id"]);
-  $formHtml = $childinsform->makeHtml();
-  echo $formHtml;
+//データを取得
+  $gr = new GetRows();
+  $rows = $gr->getRowsParentId($table,$row["id"]);
+//並び替え
+  $column = "updated";
+  //$rows = $gr->orderByArr($rows, $column);
+  $rows = $gr->orderByDescArr($rows, $column);
+  //print_r($rows);
+
+//表示する
+  $childshow = new ChildShowRows();
+  $rows = $childshow->rowsExe($rows);
+  $childshow->makeHtml($rows);
+  //print_r($rows);
+
+  Footer::output();
 });
 
 Flight::route("/childinsexe", function(){
@@ -50,19 +67,22 @@ Flight::route("/childinsexe", function(){
 });
 
 Flight::route("/childupd/@id", function($id){
+  $header = new Header();
+  $header->output();
   global $childTable;
   $table = $childTable;
   $row = GetRows::getOneArr($table, $id);
 
   $childupdform = new ChildUpdForm($id, $row);
-  $formHtml = $childupdform->makeHtml();
-  echo $formHtml;
+  $childupdform->makeHtml();
+  Footer::output();
 });
 
 Flight::route("/childupdexe", function(){
   global $childTable;
   $table = $childTable;
   $forms = [
+    ["type" => "typeText", "name" => "parentId", "column" => "parentId", "showKey" => "parentId"],
     ["type" => "typeText", "name" => "title", "column" => "title", "showKey" => "title"],
     ["type" => "textarea", "name" => "text", "column" => "text", "showKey" => "text"],
   ];
@@ -85,3 +105,13 @@ Flight::route("/childdel/@id", function($id){
   Flight::redirect("/child/{$parentId}");
 });
 
+Flight::route("/childup/@id", function($id){
+  global $childTable;
+  $table = $childTable;
+  $row = GetRows::getOneArr($table, $id);
+  $parentId = $row["parentId"];//
+
+  Up::exe($table, $id);
+
+  Flight::redirect("/child/{$parentId}");
+});

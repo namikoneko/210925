@@ -21,6 +21,7 @@ class ParentUpdForm
     $updformpartial = new UpdFormPartial();
     $formPartialTags = $updformpartial->exe($this->forms);
     $formPartialTags = $updformpartial->addHiddenId($formPartialTags, $this->id);
+    $formPartialTags = $updformpartial->addParentId($formPartialTags, $this->row);
     $formPartialTags = $updformpartial->replaceValue($formPartialTags, $this->forms, $this->row);
     //print_r($formPartialTags);
 
@@ -33,14 +34,25 @@ class ParentUpdForm
 
   public function makeHtml()
   {
-    $formTags = $this->exe();
-    $formHtml = "";
-    $formHtml .= $formTags["top"];
-    $formHtml .= $formTags["hiddenId"];
-    $formHtml .= $formTags["title"];
-    $formHtml .= $formTags["text"];
-    $formHtml .= $formTags["submit"];
-    $formHtml .= $formTags["end"];
-    return $formHtml;
+    $row = $this->exe();
+    $str = "";
+    $str .= <<< EOD
+    {$row["top"]}
+    {$row["hiddenId"]}
+    grandテーブルのid:{$row["parentId"]}
+      {$row["title"]}
+      {$row["submit"]}
+    {$row["end"]}
+    EOD;
+    echo $str;
   }
 }
+//    $formTags = $this->exe();
+//    $formHtml = "";
+//    $formHtml .= $formTags["top"];
+//    $formHtml .= $formTags["hiddenId"];
+//    $formHtml .= $formTags["title"];
+//    $formHtml .= $formTags["text"];
+//    $formHtml .= $formTags["submit"];
+//    $formHtml .= $formTags["end"];
+//    return $formHtml;

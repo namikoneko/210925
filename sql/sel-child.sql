@@ -1,2 +1,4 @@
 .header on
-select * from child;
+select * from child
+where id = 28
+;

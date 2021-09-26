@@ -7,7 +7,7 @@ class UpdFormPartial extends InsFormPartial
           <input type="text" name="nameStr" value="valStr">
 EOD;
   protected $textareaStr =  <<<EOD
-          <textarea name="nameStr">valStr</textarea>
+          <textarea name="nameStr" class="u-full-width updform-textarea">valStr</textarea>
 EOD;
 
   public function addHiddenId($returnTags, $id)
@@ -16,6 +16,15 @@ EOD;
         <input type="hidden" name="id" value="{$id}">
 EOD;
     $returnTags["hiddenId"] = $str;
+    return $returnTags;
+  }
+
+  public function addParentId($returnTags, $row)
+  {
+    $str = <<<EOD
+        <input type="text" name="parentId" value="{$row["parentId"]}">
+    EOD;
+    $returnTags["parentId"] = $str;
     return $returnTags;
   }
 
